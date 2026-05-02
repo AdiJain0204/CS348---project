@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Workout = require('../models/Workout');
 const mongoose = require('mongoose');
+const sanitize = require('mongo-sanitize');
 
 // Get all workouts
 router.get('/', async (req, res) => {
@@ -51,16 +52,16 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-// Create a workout (with transaction)
+// Create a workout
 router.post('/', async (req, res) => {
   const session = await mongoose.startSession();
   session.startTransaction();
   try {
     const workout = new Workout({
-      name: req.body.name,
-      date: req.body.date,
-      duration: req.body.duration,
-      notes: req.body.notes,
+      name: sanitize(req.body.name),
+      date: sanitize(req.body.date),
+      duration: sanitize(req.body.duration),
+      notes: sanitize(req.body.notes),
       exercises: req.body.exercises
     });
     const newWorkout = await workout.save({ session });
@@ -79,7 +80,7 @@ router.put('/:id', async (req, res) => {
   try {
     const workout = await Workout.findByIdAndUpdate(
       req.params.id,
-      req.body,
+      sanitize(req.body),
       { new: true }
     );
     res.json(workout);
