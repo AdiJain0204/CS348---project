@@ -12,7 +12,7 @@ function WorkoutList() {
 
   const fetchWorkouts = async () => {
     try {
-      const res = await axios.get('http://localhost:3001/api/workouts');
+      const res = await axios.get('https://adi-gym-tracker-backend.onrender.com/api/workouts');
       setWorkouts(res.data);
     } catch (err) {
       console.error(err);
@@ -22,7 +22,7 @@ function WorkoutList() {
   const deleteWorkout = async (id) => {
     if (window.confirm('Are you sure you want to delete this workout?')) {
       try {
-        await axios.delete(`http://localhost:3001/api/workouts/${id}`);
+        await axios.delete(`https://adi-gym-tracker-backend.onrender.com/api/workouts/${id}`);
         fetchWorkouts();
       } catch (err) {
         console.error(err);
