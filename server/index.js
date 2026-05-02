@@ -14,7 +14,13 @@ const exerciseRoutes = require('./routes/exercises');
 const app = express();
 const PORT = process.env.PORT || 3001;
 
-app.use(cors());
+const corsOptions = {
+  origin: ['https://cs-348-project-beta.vercel.app', 'http://localhost:5173'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type']
+};
+
+app.use(cors(corsOptions));
 app.use(express.json());
 
 mongoose.connect(process.env.MONGODB_URI)

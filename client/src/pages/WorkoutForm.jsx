@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
 
-const API_BASE = 'http://localhost:3001/api';
+const API_BASE = 'https://adi-gym-tracker-backend.onrender.com/api';
 
 function WorkoutForm() {
   const [form, setForm] = useState({
