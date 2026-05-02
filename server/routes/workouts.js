@@ -54,8 +54,6 @@ router.get('/:id', async (req, res) => {
 
 // Create a workout
 router.post('/', async (req, res) => {
-  const session = await mongoose.startSession();
-  session.startTransaction();
   try {
     const workout = new Workout({
       name: sanitize(req.body.name),
@@ -64,14 +62,10 @@ router.post('/', async (req, res) => {
       notes: sanitize(req.body.notes),
       exercises: req.body.exercises
     });
-    const newWorkout = await workout.save({ session });
-    await session.commitTransaction();
+    const newWorkout = await workout.save();
     res.status(201).json(newWorkout);
   } catch (err) {
-    await session.abortTransaction();
     res.status(400).json({ message: err.message });
-  } finally {
-    session.endSession();
   }
 });
 
