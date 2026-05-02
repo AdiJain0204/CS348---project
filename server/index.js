@@ -15,7 +15,13 @@ const app = express();
 const PORT = process.env.PORT || 3001;
 
 const corsOptions = {
-  origin: ['https://cs-348-project-beta.vercel.app', 'http://localhost:5173'],
+  origin: function (origin, callback) {
+    if (!origin || origin.endsWith('.vercel.app') || origin === 'http://localhost:5173') {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type']
 };
